@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoryForm = document.querySelector('form');
     const categoryId = new URLSearchParams(window.location.search).get('id');
     console.log('Category ID:', categoryId)
-
+z
     categoryForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 

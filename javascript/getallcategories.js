@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const tableBody = document.querySelector('#example1 tbody');
+    const tableBody = document.querySelector('#example tbody');
     const btnEn = document.querySelector('#btn-en');
     const btnAr = document.querySelector('#btn-ar');
     let selectedLanguage = 'ar';
+    let currentPage = 1;
+    const paginationControls = document.getElementById('paginationControls');
     const token = localStorage.getItem('token');
     btnEn.addEventListener('click', () => {
         selectedLanguage = 'en';
@@ -14,9 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchCategories(selectedLanguage);
     });
 
-    async function fetchCategories(language) {
+    async function fetchCategories(language, page = 1) {
         try {
-            const response = await fetch('http://localhost:3500/api/v1/categories', {
+            const response = await fetch(`http://localhost:3500/api/v1/categories?page=${page}`, {
                 headers: {
                     'accept-language': language,
                     'currency': "KWD"
@@ -26,6 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             if (data.message === "success") {
+                populateTable(data.result, language);
+                setupPagination(data.totalPages, page);
                 populateTable(data.result);
             } else {
                 console.error('Failed to fetch categories:', data.message);
@@ -82,6 +86,22 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Failed to delete category. Please try again.');
         }
     }
+    function setupPagination(totalPages, currentPage) {
+        paginationControls.innerHTML = '';
+        for (let i = 1; i <= totalPages; i++) {
+            const button = document.createElement('button');
+            button.textContent = i;
+            button.classList.add('pagination-btn');
+            if (i === currentPage) {
+                button.classList.add('active');
+            }
+            button.addEventListener('click', () => {
+                fetchSubcategory(selectedLanguage, i);
+            });
+            paginationControls.appendChild(button);
+        }
+    }
 
-    fetchCategories(selectedLanguage);
+
+    fetchCategories(selectedLanguage,currentPage);
 });

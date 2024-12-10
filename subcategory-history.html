@@ -248,6 +248,21 @@
       margin: 4px auto;
       
   }
+    .pagination-btn {
+      padding: 6px 12px;
+      background-color: #2980b9;
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 4px 4px;
+      
+  }
+.search{
+border-radius: 4px;
+border: 0.5px solid black;
+padding: 6px 12px;
+}
 </style>
 <!--  -->
 <div class="content-wrapper">
@@ -263,12 +278,9 @@
             <div class="col-12 ">
                <div class="card">
                   <div class="card-body">
-                  
-                        <!-- Buttons to select language -->
-                        <button id="btn-en" class="view-btn">English</button>
-                        <button id="btn-ar" class="view-btn">Arabic</button>
-                    
-                     <table class="table table-striped" id="example1">
+                     <button id="btn-en" class="view-btn">English</button>
+                     <button id="btn-ar" class="view-btn">Arabic</button>
+                     <table class="table table-striped" >
                         <thead>
                            <th>Subcategory Name</th>
                            <th>Category Name</th>
@@ -294,6 +306,7 @@
             </div>
          </div>
       </div>
+      <div id="paginationControls" class="pagination view-btn1"></div>
    </section>
 </div>
  

@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
     function displayPopups(popups) {
-      const tableBody = document.querySelector('#example1 tbody');
+      const tableBody = document.querySelector('#example tbody');
       tableBody.innerHTML = ''; 
   
       popups.forEach(({ _id, title, image, product }) => {

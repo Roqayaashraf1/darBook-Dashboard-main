@@ -36,6 +36,7 @@
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
+   <!-- <input type="text" id="searchInput" placeholder="Search..." onkeyup="filterTable()"> -->
 <div class="wrapper" >
 
   <!-- Preloader -->
@@ -239,9 +240,25 @@
       transition-duration:0.5s;
 
     }
+    .pagination-btn {
+      padding: 6px 12px;
+      background-color: #2980b9;
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 4px 4px;
+      
+  }
+  .search{
+   border-radius: 4px;
+   border: 0.5px solid black;
+   padding: 6px 12px;
+  }
 </style>
 <!--  -->
 <div class="content-wrapper">
+
    <section class="content">
       <div class="container-fluid">
          <div class="row ">
@@ -253,7 +270,10 @@
             <div class="col-12 ">
                <div class="card">
                   <div class="card-body">
-                     <table class="table table-striped" id="example1">
+                     <div>
+                        <input type="text" id="searchInput" placeholder="Search for products..." autocomplete="off">
+                    </div>
+                     <table class="table table-striped" >
                         <thead>
                            <th>Title</th>
                            <th>Price</th>
@@ -264,6 +284,8 @@
                            <th>Subcategory</th>
                            <th>Category</th>
                            <th>Author</th>
+                           <th>action</th>
+                           <th>action</th> 
                         </thead>
                         <tbody id="productTableBody">
                            <!-- Rows will be dynamically inserted here -->
@@ -278,14 +300,18 @@
                            <th>Subcategory</th>
                            <th>Category</th>
                            <th>Author</th>
-                          
+                          <th>action</th> 
+                          <th>action</th> 
                         </tfoot>
+
                      </table>
                   </div>
                </div>
             </div>
          </div>
       </div>
+      <div id="paginationControls" class="pagination view-btn"></div>
+
    </section>
 </div>
 
