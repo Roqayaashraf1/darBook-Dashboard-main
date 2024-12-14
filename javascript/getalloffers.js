@@ -1,7 +1,11 @@
 document.addEventListener("DOMContentLoaded", function() {
     const token = localStorage.getItem('token');
-    fetch('http://localhost:3500/api/v1/offers', {
-        method: 'GET'
+    fetch('http://localhost:3500/api/v1/offers/getalloffers-admin', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'token': `${token}`
+        }
     })
     .then(response => response.json())
     .then(data => {
@@ -52,7 +56,6 @@ document.addEventListener("DOMContentLoaded", function() {
         .then(response => response.json())
         .then(data => {
             if (data.message === 'Offer deleted successfully') {
-                alert('Offer deleted successfully!');
                 document.querySelector(`[data-offer-id="${offerId}"]`).closest('tr').remove();
             } else {
                 alert(data.message);

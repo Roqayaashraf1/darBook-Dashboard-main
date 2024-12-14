@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 console.log('category added successfully:', data);
-                alert('category added successfully!');
                 addCategoryForm.reset();
             } else {
                 console.log('Failed to add category:', data.message || 'Unknown error');

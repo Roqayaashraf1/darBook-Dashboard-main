@@ -3,11 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token');
     async function fetchAuthors() {
         try {
-            const response = await fetch('http://localhost:3500/api/v1/authors', {
+            const response = await fetch('http://localhost:3500/api/v1/authors/getallauthors-admin', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'currency': 'KWD'
+                   'token':`${token}`
 
                 }
             });

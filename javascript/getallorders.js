@@ -80,8 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 throw new Error('Failed to delete order');
             }
-
-            alert('Order deleted successfully');
             fetchOrders(currentPage); 
         } catch (error) {
             console.error('Error deleting order:', error);

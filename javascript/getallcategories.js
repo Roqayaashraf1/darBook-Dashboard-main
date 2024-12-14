@@ -18,10 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchCategories(language, page = 1) {
         try {
-            const response = await fetch(`http://localhost:3500/api/v1/categories?page=${page}`, {
+            const response = await fetch(`http://localhost:3500/api/v1/categories/getallcategories-admin?page=${page}`, {
                 headers: {
                     'accept-language': language,
-                    'currency': "KWD"
+                   'token': `${token}`
                 }
             });
 
@@ -79,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Failed to delete category');
             }
 
-            alert('category deleted successfully');
             fetchCategories();
         } catch (error) {
             console.error('Error deleting category:', error);

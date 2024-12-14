@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         <td>${item.product.title}</td>
                         <td>${item.quantity}</td>
                         <td>${item.product.price}</td>
-                        <td>${item.priceExchanged} ${order.currency}</td>
+                        <td>${item.priceExchanged} </td>
                     </tr>
                 `;
                 cartItemsTbody.innerHTML += row;

@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (updateRes.ok) {
                 const result = await updateRes.json();
                 console.log(result);
-                alert('Product updated successfully!');
+                window.location.href = 'product-history.html';
             } else {
                 alert('Failed to update product');
             }

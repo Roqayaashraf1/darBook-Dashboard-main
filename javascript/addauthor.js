@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 console.log('Author added successfully:', data);
-                alert('Author added successfully!');
                 addAuthorForm.reset();
             } else {
                 console.log('Failed to add author:', data.message || 'Unknown error');

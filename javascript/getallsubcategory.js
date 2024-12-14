@@ -19,10 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchSubcategory(language, page = 1) {
         try {
-            const response = await fetch(`http://localhost:3500/api/v1/subcategory?page=${page}`, {
+            const response = await fetch(`http://localhost:3500/api/v1/subcategory/getallsubcategory-admin?page=${page}`, {
                 headers: {
                     'language': language,
-                    'currency': "KWD"
+                    'token': `${token}`
                 }
             });
 

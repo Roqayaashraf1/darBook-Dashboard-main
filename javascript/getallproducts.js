@@ -8,12 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchProducts(page = 1, keyword = '') {
         try {
-            const url = `http://localhost:3500/api/v1/products?page=${page}&keyword=${encodeURIComponent(keyword)}`;
+            const url = `http://localhost:3500/api/v1/products/getallproduts-admin?page=${page}&keyword=${encodeURIComponent(keyword)}`;
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'currency': 'KWD',
+                    'token':`${token}`
                 }
             });
 
@@ -91,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Failed to delete product');
             }
 
-            alert('Product deleted successfully');
             fetchProducts(currentPage, currentSearchKeyword);
         } catch (error) {
             console.error('Error deleting product:', error);
