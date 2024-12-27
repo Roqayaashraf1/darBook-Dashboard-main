@@ -6,34 +6,34 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Dar Book - History</title>
-  <!-- Favicon -->
-  <link rel="shortcut icon" type="image/x-icon" href="../../assets/svg/logo.svg">
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Tempusdominus Bootstrap 4 -->
-  <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- JQVMap -->
-  <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/adminlte.min.css">
-  <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
-  <!-- summernote -->
-  <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
-  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/svg/logo.svg">
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+  
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper" >
@@ -159,7 +159,20 @@
            </a>
         </li>
            <hr style="width: 80%; background-color: gray;">
- 
+           <a href="add-contactus.html" class="nav-link ">
+            <i class="fa fa-plus nav-icon"></i>
+            <p>Add contactus</p>
+         </a>
+      </li>
+      <li class="nav-item">
+         <a href="contactus-history.html" class="nav-link">
+            <i class="fa fa-history nav-icon"></i>
+            <p>All contactus</p>
+         </a>
+      </li>
+     </li>
+          <hr style="width: 80%; background-color: gray;">
+
             <li class="nav-item">
                   <a href="orders-history.html" class="nav-link">
                     <i class="fa fa-history nav-icon"></i>
@@ -253,7 +266,7 @@
             <div class="col-12 ">
                <div class="card">
                   <div class="card-body">
-                     <table class="table table-striped" >
+                     <table  id="example1" class="table table-striped" >
                         <thead>
                            
                            <th>ID</th>
@@ -262,7 +275,7 @@
                         </thead>
       
       
-                        <tbody id="newsletter">
+                        <tbody >
                            <!-- Rows will be dynamically inserted here -->
                         </tbody>
                      </table>
@@ -279,8 +292,7 @@
 
 <!-- /.content-wrapper -->
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
+<aside class="control-sidebar control-sidebar-dark">
    <!-- Control sidebar content goes here -->
  </aside>
  <!-- /.control-sidebar -->
@@ -336,33 +348,7 @@
 <script src="dist/js/demo.js"></script>
 
 <script src="dist/js/pages/dashboard.js"></script>
-<script>
-$(function () {
- bsCustomFileInput.init();
-});
-</script>
-<script>
- $(function () {
-   $("#example1").DataTable({
-     "responsive": true, "lengthChange": false, "autoWidth": false,
-     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-   }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-   
- });
-
-
- $(function () {
-   $("#example2").DataTable({
-     "responsive": true, "lengthChange": false, "autoWidth": false,
-     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-   }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
-  
- });
-
-
- // Summernote
- $('#summernote').summernote()
-</script>
+<script src="./javascript/index.js"></script>
 <script src="./javascript/getallemails.js"></script>
 <script src="./javascript/logout.js"></script>
 </body>

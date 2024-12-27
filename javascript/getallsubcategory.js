@@ -1,110 +1,83 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const subcategoryTableBody = document.getElementById('subcategoryTableBody');
-    const paginationControls = document.getElementById('paginationControls');
-    const btnEn = document.querySelector('#btn-en');
-    const btnAr = document.querySelector('#btn-ar');
-    let selectedLanguage = 'arabic';
-    let currentPage = 1; // Initialize current page
-    const token = localStorage.getItem('token');
 
-    btnEn.addEventListener('click', () => {
-        selectedLanguage = 'english';
-        fetchSubcategory(selectedLanguage, currentPage);
+const token = localStorage.getItem('token');
+console.log("Token:", token);
+
+function fetchData() {
+    fetch(`http://localhost:3500/api/v1/subcategory/getallsubcategory-admin`, {
+            headers: {
+                'language': "arabic",
+                'token': `${token}`
+            }
+        }).then((response) => {
+            if (response.status === 401) {
+                alert('Session expired. Please log in again.');
+                localStorage.removeItem('token'); 
+                window.location.href = './login.html'; 
+                return null;
+            }
+            return response.json(); 
+        })
+        .then((data) => {
+            populateTable(data.result);
+            console.log(data.result)
+            if ($.fn.DataTable.isDataTable("#example1")) {
+                $("#example1").DataTable().destroy();
+            }
+            $("#example1")
+                .DataTable({
+                    responsive: true,
+                    lengthChange: false,
+                    autoWidth: false,
+                    buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                })
+                .buttons()
+                .container()
+                .appendTo("#example1_wrapper .col-md-6:eq(0)");
+        })
+        .catch((error) => console.error("Error fetching data:", error));
+
+
+}
+$(document).on("click", ".btn-danger", function () {
+    const subcategoryId = $(this).data("id");
+    console.log(subcategoryId)
+    fetch(`http://localhost:3500/api/v1/subcategory/${subcategoryId}`, {
+            method: "DELETE",
+            headers: {
+                token: `${token}`
+            },
+        })
+        .then((response) => response.json())
+        .then(() => {
+            alert("SubCategory deleted successfully!"); const row = $(this).closest('tr');
+            row.fadeOut(100, function() {
+                row.remove(); // Remove the row after fade out
+            });
+            // Refresh DataTable
+            $("#example1").DataTable().draw();
+        })
+        .catch((error) => console.error("Error deleting Subcategory:", error));
+});
+
+
+
+function populateTable(data) {
+
+    const tableBody = $("#example1 tbody");
+    tableBody.empty();
+    data.forEach((item) => {
+        const categoryName = item.category ? item.category.englishname : "No Category";
+        tableBody.append(`
+          <tr>
+                 <td>${item.arabicname}</td>
+                 <td>${item.englishname}</td>
+                  <td>${categoryName}</td>
+                <td><a href="edit-subcategory.html?id=${item._id}" class="btn btn-info"><i class="fa fa-edit"></i></a></td>
+                <td><button type="button" class="btn btn-danger mt-3" data-id="${item._id}">Delete Subcategory</button></td>
+          </tr>
+        `);
     });
-
-    btnAr.addEventListener('click', () => {
-        selectedLanguage = 'arabic';
-        fetchSubcategory(selectedLanguage, currentPage);
-    });
-
-    async function fetchSubcategory(language, page = 1) {
-        try {
-            const response = await fetch(`http://localhost:3500/api/v1/subcategory/getallsubcategory-admin?page=${page}`, {
-                headers: {
-                    'language': language,
-                    'token': `${token}`
-                }
-            });
-
-            const data = await response.json();
-
-            if (data.message === "success") {
-                populateTable(data.result, language);
-                setupPagination(data.totalPages, page);
-                console.log(data.result, language);
-            } else {
-                console.error('Failed to fetch subcategory:', data.message);
-            }
-        } catch (error) {
-            console.error('Error fetching subcategory:', error);
-        }
-    }
-
-    function populateTable(subcategories, language) {
-        subcategoryTableBody.innerHTML = '';
-        subcategories.forEach(subcategory => {
-            const category = subcategory.category;
-            let categoryDetails = '';
-
-            if (category) {
-                categoryDetails = `<td>${language === 'english' ? category.englishname || 'N/A' : category.arabicname || 'N/A'}</td>`;
-            } else {
-                categoryDetails = '<td colspan="3">N/A</td>';
-            }
-
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${subcategory.name}</td>
-                ${categoryDetails}
-                <td><a href="edit-subcategory.html?id=${subcategory._id}" class="btn btn-info"><i class="fa fa-edit"></i></a></td>
-                <td><button type="button" class="btn btn-danger mt-3" data-id="${subcategory._id}">Delete Subcategory</button></td>
-            `;
-            subcategoryTableBody.appendChild(row);
-        });
-
-        document.querySelectorAll('.btn-danger').forEach(button => {
-            button.addEventListener('click', async (event) => {
-                const subcategoryId = event.target.getAttribute('data-id');
-                try {
-                    const response = await fetch(`http://localhost:3500/api/v1/subcategory/${subcategoryId}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'token': `${token}`
-                        }
-                    });
-
-                    const data = await response.json();
-
-                    if (data.message === "success") {
-                        event.target.closest('tr').remove();
-                        console.log('Subcategory deleted:', data.result);
-                    } else {
-                        console.error('Failed to delete subcategory:', data.message);
-                    }
-                } catch (error) {
-                    console.error('Error deleting subcategory:', error);
-                }
-            });
-        });
-    }
-
-    function setupPagination(totalPages, currentPage) {
-        paginationControls.innerHTML = '';
-        for (let i = 1; i <= totalPages; i++) {
-            const button = document.createElement('button');
-            button.textContent = i;
-            button.classList.add('pagination-btn');
-            if (i === currentPage) {
-                button.classList.add('active');
-            }
-            button.addEventListener('click', () => {
-                fetchSubcategory(selectedLanguage, i);
-            });
-            paginationControls.appendChild(button);
-        }
-    }
-
-    // Initial fetch of subcategories
-    fetchSubcategory(selectedLanguage, currentPage);
+}
+$(document).ready(function () {
+    fetchData();
 });

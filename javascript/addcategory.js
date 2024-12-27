@@ -20,9 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     arabicname: arabicname
                 })
             });
-
+            if (response.status === 401) {
+                alert('Session expired. Please log in again.');
+                localStorage.removeItem('token');
+                window.location.href = './login.html';
+            }
             const data = await response.json();
-
+         
             if (response.ok) {
                 console.log('category added successfully:', data);
                 addCategoryForm.reset();

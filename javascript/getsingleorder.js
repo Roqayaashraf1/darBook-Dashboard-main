@@ -14,7 +14,15 @@ document.addEventListener("DOMContentLoaded", function() {
             'token': `${token}`
         }
     })
-    .then(response => response.json())
+    .then((response) => {
+        if (response.status === 401) {
+            alert('Session expired. Please log in again.');
+            localStorage.removeItem('token'); 
+            window.location.href = './login.html'; 
+            return null;
+        }
+        return response.json(); 
+    })
     .then(data => {
         if (data.message === 'success') {
             const order = data.result;

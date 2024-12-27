@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dar Book - Add Offer</title>
+  <title>Dar Book - Add Product</title>
   <!-- Favicon -->
   <link rel="shortcut icon" type="image/x-icon" href="../../assets/svg/logo.svg">
   <!-- Google Font: Source Sans Pro -->
@@ -32,6 +32,7 @@
   <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -134,7 +135,7 @@
              <hr style="width: 80%; background-color: gray;">
 
              <li class="nav-item">
-                <a href="add-author.html" class="nav-link">
+                <a href="add-author.html" class="nav-link ">
                    <i class="fa fa-plus nav-icon"></i>
                    <p>Add Author</p>
                 </a>
@@ -145,6 +146,7 @@
                    <p>All Authores</p>
                 </a>
              </li>
+            </li>
             <hr style="width: 80%; background-color: gray;">
             <a href="add-popup.html" class="nav-link ">
               <i class="fa fa-plus nav-icon"></i>
@@ -157,21 +159,22 @@
               <p>All Popups</p>
            </a>
         </li>
-            <hr style="width: 80%; background-color: gray;">
-            <a href="add-contactus.html" class="nav-link ">
-              <i class="fa fa-plus nav-icon"></i>
-              <p>Add contactus</p>
-           </a>
-        </li>
-        <li class="nav-item">
-           <a href="contactus-history.html" class="nav-link">
-              <i class="fa fa-history nav-icon"></i>
-              <p>All contactus</p>
-           </a>
-        </li>
        </li>
             <hr style="width: 80%; background-color: gray;">
- 
+            <a href="add-contactus.html" class="nav-link  active">
+                <i class="fa fa-plus nav-icon"></i>
+                <p>Add contactus</p>
+             </a>
+          </li>
+          <li class="nav-item">
+             <a href="contactus-history.html" class="nav-link">
+                <i class="fa fa-history nav-icon"></i>
+                <p>All contactus</p>
+             </a>
+          </li>
+         </li>
+              <hr style="width: 80%; background-color: gray;">
+   
             <li class="nav-item">
                   <a href="orders-history.html" class="nav-link">
                     <i class="fa fa-history nav-icon"></i>
@@ -182,12 +185,12 @@
             <li class="nav-item">
               <a href="history-newsletter.html" class="nav-link ">
                 <i class="fa fa-history nav-icon"></i>
-                <p >All Emails</p>
+                <p>All Emails</p>
               </a>
         </li>
        <hr style="width: 80%; background-color: gray;">
        <li class="nav-item">
-        <a href="add-offer.html" class="nav-link active ">
+        <a href="add-offer.html" class="nav-link ">
           <i class="fa fa-history nav-icon"></i>
           <p >Add Offers</p>
         </a>
@@ -221,12 +224,12 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Add Offers</h1>
+              <h1>Add contactus</h1>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item active">Add Offers</li>
+                <li class="breadcrumb-item active">Add contactus</li>
               </ol>
             </div>
           </div>
@@ -241,44 +244,46 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Add Offers</h3>
+                <h3 class="card-title">Add contactus</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="#" method="post" enctype="multipart/form-data">
+               <form id="add-contactus-form" action="#" method="post" enctype="multipart/form-data">
+
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Discount (%):</label>
-                                <input id="discount" name="discount" type="text" class="form-control" placeholder="Enter discount value *" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Start Date</label>
-                                <input id="startDate" name="startDate" type="date" class="form-control"  required>
-                            </div>
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label >contactus Title *</label>
+                        <input name="title"  type="text" class="form-control" placeholder="Enter contactus title *" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>message </label>
+                            <input id="message" name="message" class="form-control"placeholder="Enter contactus message *" required>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>product </label>
-                                <select id="productId" name="productId" class="form-control" required>
-                                    <!-- Options will be populated here by JavaScript -->
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">
+                          <label>email </label>
+                          <input id="email" name="email" class="form-control" placeholder="Enter contactus email *" required>
+                           
+                      </div>
+                  </div>
+              </div>
                 </div>
                 <!-- /.card-body -->
-            
+
                 <div class="card-footer">
-                    <button type="submit" id="add-offer-btn" class="btn btn-success form-control">Add Offer <i class="fa fa-plus ml-2"></i></button>
+                  <button type="submit" class="btn btn-success form-control"> Add contactus <i class="fa fa-plus ml-2"></i></button>
                 </div>
-            </form>
-            
+              </form>
             </div>
             <!-- /.card -->
 
@@ -307,6 +312,7 @@
  
 <!-- /.content-wrapper -->
 
+ 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
@@ -364,8 +370,9 @@
 <script src="dist/js/demo.js"></script>
 
 <script src="dist/js/pages/dashboard.js"></script>
+
 <script src="./javascript/index.js"></script>
-<script src="./javascript/addoffer.js"></script>
+<script src="./javascript/addcontactus.js"></script>
 <script src="./javascript/logout.js"></script>
 </body>
 </html>

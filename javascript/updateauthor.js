@@ -19,7 +19,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 'currency': "KWD"
             }
         });
-
+        if (authorRes.status === 401) {
+            alert('Session expired. Please log in again.');
+            localStorage.removeItem('token');
+            window.location.href = './login.html';
+        }
         if (!authorRes.ok) {
             throw new Error('Failed to fetch author details');
         }
@@ -54,7 +58,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 },
                 body: JSON.stringify({ name }),
             });
-
+            if (response.status === 401) {
+                alert('Session expired. Please log in again.');
+                localStorage.removeItem('token');
+                window.location.href = './login.html';
+            }
             if (!response.ok) {
                 throw new Error('Failed to update author');
             }

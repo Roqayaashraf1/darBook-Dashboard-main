@@ -2,9 +2,8 @@ const token = localStorage.getItem('token');
 console.log("Token:", token);
 
 function fetchData() {
-    fetch('http://localhost:3500/api/v1/authors/getallauthors-admin', {
+    fetch('http://localhost:3500/api/v1/contactus/getallcontactus-admin', {
             headers: {
-                'language': "arabic",
                 'token': `${token}`
             }
         }).then((response) => {
@@ -38,9 +37,9 @@ function fetchData() {
 
 }
 $(document).on("click", ".btn-danger", function () {
-    const authors = $(this).data("id");
-    console.log(authors)
-    fetch(`http://localhost:3500/api/v1/authors/${authors}`, {
+    const contactus = $(this).data("id");
+    console.log(contactus)
+    fetch(`http://localhost:3500/api/v1/contactus/${contactus}`, {
             method: "DELETE",
             headers: {
                 token: `${token}`
@@ -48,7 +47,7 @@ $(document).on("click", ".btn-danger", function () {
         })
         .then((response) => response.json())
         .then(() => {
-            alert("Authors deleted successfully!");
+            alert("contactus deleted successfully!");
             const row = $(this).closest('tr');
             row.fadeOut(100, function () {
                 row.remove(); // Remove the row after fade out
@@ -56,7 +55,7 @@ $(document).on("click", ".btn-danger", function () {
             // Refresh DataTable
             $("#example1").DataTable().draw();
         })
-        .catch((error) => console.error("Error deleting Authors:", error));
+        .catch((error) => console.error("Error deleting contactus:", error));
 });
 
 
@@ -68,9 +67,11 @@ function populateTable(data) {
     data.forEach((item) => {
         tableBody.append(`
           <tr>
-                 <td>${item.name}</td>
-                <td><a href="edit-subcategory.html?id=${item._id}" class="btn btn-info"><i class="fa fa-edit"></i></a></td>
-                <td><button type="button" class="btn btn-danger mt-3" data-id="${item._id}">Delete Subcategory</button></td>
+                 <td>${item.title}</td>
+                  <td>${item.email}</td>
+                   <td>${item.message}</td>
+                <td><a href="edit-contactus.html?id=${item._id}" class="btn btn-info"><i class="fa fa-edit"></i></a></td>
+                <td><button type="button" class="btn btn-danger mt-3" data-id="${item._id}">Delete Contactus</button></td>
           </tr>
         `);
     });

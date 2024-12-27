@@ -15,12 +15,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                     'currency': 'KWD',
                 },
             });
-
+            if (subcategoryRes.status === 401) {
+                alert('Session expired. Please log in again.');
+                localStorage.removeItem('token');
+                window.location.href = './login.html';
+            }
             if (!subcategoryRes.ok) {
                 console.error(`Error: ${subcategoryRes.status} - ${subcategoryRes.statusText}`);
                 throw new Error('Failed to fetch subcategory details');
             }
-
+            if (subcategoryRes.status === 401) {
+                alert('Session expired. Please log in again.');
+                localStorage.removeItem('token');
+                window.location.href = './login.html';
+            }
             const data = await subcategoryRes.json();
             console.log('subcategory Details:', data);
 
@@ -56,7 +64,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 },
                 body: JSON.stringify({ englishname, arabicname }),
             });
-
+            if (response.status === 401) {
+                alert('Session expired. Please log in again.');
+                localStorage.removeItem('token');
+                window.location.href = './login.html';
+            }
             if (!response.ok) {
                 console.error('Failed request:', response.statusText);
                 throw new Error('Network response was not ok');

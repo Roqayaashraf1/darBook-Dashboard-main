@@ -14,7 +14,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 'currency': 'KWD'
             },
         });
-
+        if (categoryRes.status === 401) {
+            alert('Session expired. Please log in again.');
+            localStorage.removeItem('token');
+            window.location.href = './login.html';
+        }
         if (!categoryRes.ok) {
             console.error(`Error: ${categoryRes.status} - ${categoryRes.statusText}`);
             throw new Error('Failed to fetch category details');
@@ -51,7 +55,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 },
                 body: JSON.stringify({ arabicname, englishname }),
             });
-
+            if (response.status === 401) {
+                alert('Session expired. Please log in again.');
+                localStorage.removeItem('token');
+                window.location.href = './login.html';
+            }
             if (!response.ok) {
                 console.error('Failed request:', response.statusText);
                 throw new Error('Network response was not ok');

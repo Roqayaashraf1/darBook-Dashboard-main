@@ -1,7 +1,5 @@
-const loginForm = document.querySelector('form');
-
-loginForm.addEventListener('submit', async (event) => {
-    event.preventDefault(); 
+document.getElementById('loginForm').addEventListener('submit', async function (event) {
+    event.preventDefault(); // Prevent the default form submission
 
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -11,26 +9,29 @@ loginForm.addEventListener('submit', async (event) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'currency': 'KWD' 
+                'currency':"KWD"
             },
-            body: JSON.stringify({
-                email: email,
-                password: password
-            })
+            body: JSON.stringify({ email, password }),
         });
 
         const data = await response.json();
 
-        if (response.ok && data.message === "success") {
-            console.log('Login successful:', data);
+        if (response.ok) {
+            // Save the token
             localStorage.setItem('token', data.token);
-            window.location.href = './index.html';
+
+            // Redirect user to dashboard or another page
+            window.location.href = './index.html'; // Adjust the path as needed
         } else {
-            console.log('Login failed:', data.err || 'Unknown error');
-            alert('Login failed: ' + data.err || 'Unknown error');
+            // Display error message
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.textContent = data.message || 'Login failed. Please try again.';
+            errorMessage.style.display = 'block';
         }
     } catch (error) {
-        console.error('Error during login:', error);
-        alert('An error occurred. Please try again.');
+        console.error('Login error:', error);
+        const errorMessage = document.getElementById('error-message');
+        errorMessage.textContent = 'An error occurred. Please try again.';
+        errorMessage.style.display = 'block';
     }
 });

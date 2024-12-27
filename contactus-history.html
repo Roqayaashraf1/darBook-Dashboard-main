@@ -114,7 +114,7 @@
                </a>
             </li>
             <li class="nav-item">
-               <a href="category-history.html" class="nav-link active">
+               <a href="category-history.html" class="nav-link">
                   <i class="fa fa-history nav-icon"></i>
                   <p>All Categories</p>
                </a>
@@ -133,40 +133,40 @@
                </a>
             </li>
             <hr style="width: 80%; background-color: gray;">
-
             <li class="nav-item">
-               <a href="add-author.html" class="nav-link">
-                  <i class="fa fa-plus nav-icon"></i>
-                  <p>Add Author</p>
-               </a>
-            </li>
-            <li class="nav-item">
-               <a href="author-history.html" class="nav-link">
-                  <i class="fa fa-history nav-icon"></i>
-                  <p>All Authores</p>
-               </a>
-            </li>
+              <a href="add-author.html" class="nav-link">
+                 <i class="fa fa-plus nav-icon"></i>
+                 <p>Add Author</p>
+              </a>
            </li>
+           <li class="nav-item">
+              <a href="author-history.html" class="nav-link ">
+                 <i class="fa fa-history nav-icon"></i>
+                 <p>All Authores</p>
+              </a>
+           </li>
+          </li>
+       
            <hr style="width: 80%; background-color: gray;">
            <a href="add-popup.html" class="nav-link ">
-            <i class="fa fa-plus nav-icon"></i>
-            <p>Add Popup</p>
-         </a>
-      </li>
-      <li class="nav-item">
-         <a href="popup-history.html" class="nav-link ">
-            <i class="fa fa-history nav-icon"></i>
-            <p>All Popups</p>
-         </a>
-      </li>
-         <hr style="width: 80%; background-color: gray;">
-         <a href="add-contactus.html" class="nav-link ">
+             <i class="fa fa-plus nav-icon"></i>
+             <p>Add Popup</p>
+          </a>
+       </li>
+       <li class="nav-item">
+          <a href="popup-history.html" class="nav-link">
+             <i class="fa fa-history nav-icon"></i>
+             <p>All Popups</p>
+          </a>
+       </li>
+           <hr style="width: 80%; background-color: gray;">
+           <a href="add-contactus.html" class="nav-link ">
             <i class="fa fa-plus nav-icon"></i>
             <p>Add contactus</p>
          </a>
       </li>
       <li class="nav-item">
-         <a href="contactus-history.html" class="nav-link">
+         <a href="contactus-history.html" class="nav-link active">
             <i class="fa fa-history nav-icon"></i>
             <p>All contactus</p>
          </a>
@@ -175,9 +175,9 @@
           <hr style="width: 80%; background-color: gray;">
 
             <li class="nav-item">
-                  <a href="orders-history.html" class="nav-link ">
+                  <a href="orders-history.html" class="nav-link">
                     <i class="fa fa-history nav-icon"></i>
-                    <p>All Orders</p>
+                    <p >All Orders</p>
                   </a>
             </li>
            <hr style="width: 80%; background-color: gray;">
@@ -191,7 +191,7 @@
      <li class="nav-item">
       <a href="add-offer.html" class="nav-link ">
         <i class="fa fa-history nav-icon"></i>
-        <p >Add Offers</p>
+        <p>Add Offers</p>
       </a>
 </li>
 <li class="nav-item">
@@ -202,9 +202,8 @@
 </li>
    <hr style="width: 80%; background-color: gray;">
 
-
          <li class="nav-item">
-               <a href="login.html" class="nav-link">
+               <a href="login.html" id="logoutLink"class="nav-link">
                  <i class="fas fa-sign-out-alt" style="font-size:20px;"></i>
                  <p class="ml-3">logout</p>
                </a>
@@ -217,8 +216,7 @@
   </aside>
 
 
-
-  <style>
+<style>
    .card_img{
       width: 100% !important;
       height:100% !important;
@@ -262,26 +260,36 @@
       <div class="container-fluid">
          <div class="row ">
             <div class="col-12 mt-3">
-               <h4>Category History</h4>
+               <h4>contactus History</h4>
             </div>
          </div>
          <div class="row mt-3">
             <div class="col-12 ">
                <div class="card">
                   <div class="card-body">
-                     <table id="example1" class="table table-bordered table-hover">
+                     <table class="table table-striped"  id="example1">
                         <thead>
-                            
-                                <th>Arabic Name</th>
-                                <th>English Name</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            
+                          <th>Name</th>
+                          <th>email</th>
+                          <th>message</th>
+                          <th>Action</th>
+                          <th>Action</th>
                         </thead>
-                        <tbody>
-                            <!-- Populated dynamically -->
+      
+      
+                        <tbody >
+                           <!-- Rows will be dynamically inserted here -->
                         </tbody>
-                    </table>
+      
+                        <tfoot>
+                           <th>Name</th>
+                           <th>email</th>
+                           <th>message</th>
+                           <th>Action</th>
+                           <th>Action</th>
+
+                        </tfoot>
+                     </table>
                   </div>
                </div>
             </div>
@@ -353,7 +361,7 @@
 
 <script src="dist/js/pages/dashboard.js"></script>
 <script src="./javascript/index.js"></script>
-<script src="./javascript/getallcategories.js"></script>
+<script src="./javascript/getallcontactus.js"></script>
 <script src="./javascript/logout.js"></script>
 </body>
 </html>

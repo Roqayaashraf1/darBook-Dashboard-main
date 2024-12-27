@@ -1,26 +1,74 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const token = localStorage.getItem('token');
-    fetch('http://localhost:3500/api/v1/offers/getalloffers-admin', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'token': `${token}`
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        const offers = data.offers || [];
-        const alloffers = document.getElementById('alloffers'); // Directly select tbody by ID
-        if (!alloffers) {
-            console.error('Element with ID "alloffers" not found');
-            return;
-        }
-        alloffers.innerHTML = ''; 
 
-        offers.forEach((offer, index) => {
-            const row = `
-                <tr>
+const token = localStorage.getItem('token');
+console.log("Token:", token);
+
+function fetchData() {
+    fetch('http://localhost:3500/api/v1/offers/getalloffers-admin', {
+            headers: {
+                'language': "arabic",
+                'token': `${token}`
+            }
+        }).then((response) => {
+            if (response.status === 401) {
+                alert('Session expired. Please log in again.');
+                localStorage.removeItem('token'); 
+                window.location.href = './login.html'; 
+                return null;
+            }
+            return response.json(); 
+        })
+        .then((data) => {
+            populateTable(data.offers);
+            console.log(data.offers)
+            if ($.fn.DataTable.isDataTable("#example1")) {
+                $("#example1").DataTable().destroy();
+            }
+            $("#example1")
+                .DataTable({
+                    responsive: true,
+                    lengthChange: false,
+                    autoWidth: false,
+                    buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                })
+                .buttons()
+                .container()
+                .appendTo("#example1_wrapper .col-md-6:eq(0)");
+        })
+        .catch((error) => console.error("Error fetching data:", error));
+
+
+}
+$(document).on("click", ".btn-danger", function () {
+    const offerId = $(this).data("id");
+    console.log(offerId)
+    fetch(`http://localhost:3500/api/v1/offers/${offerId}`, {
+            method: "DELETE",
+            headers: {
+                token: `${token}`
+            },
+        })
+        .then((response) => response.json())
+        .then(() => {
+            alert("offer deleted successfully!");
+            const row = $(this).closest('tr');
+            row.fadeOut(100, function () {
+                row.remove(); // Remove the row after fade out
+            });
+            // Refresh DataTable
+            $("#example1").DataTable().draw();
+        })
+        .catch((error) => console.error("Error deleting offer:", error));
+});
+
+
+
+function populateTable(data) {
+
+    const tableBody = $("#example1 tbody");
+    tableBody.empty();
+    data.forEach((offer,index) => {
+        tableBody.append(`
+           <tr>
                     <td>${index + 1}</td>
                     <td>${offer.discount}%</td>
                     <td>${new Date(offer.startDate).toLocaleDateString()}</td>
@@ -31,36 +79,9 @@ document.addEventListener("DOMContentLoaded", function() {
                         <button type="button" class="btn btn-danger mt-3" data-offer-id="${offer._id}">Delete Offer</button>
                     </td>
                 </tr>
-            `;
-            alloffers.innerHTML += row;
-        });
-        document.querySelectorAll('.btn-danger').forEach(button => {
-            button.addEventListener('click', async (event) => {
-                const offerId = event.target.getAttribute('data-offer-id'); // Changed this to use event.target
-                if (confirm('Are you sure you want to delete this Offer?')) {
-                    deleteOffer(offerId);
-                }
-            });
-        });
-    })
-    .catch(error => console.error('Error:', error));
-
-    async function deleteOffer(offerId) {
-        await fetch(`http://localhost:3500/api/v1/offers/${offerId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'token': `${token}`
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message === 'Offer deleted successfully') {
-                document.querySelector(`[data-offer-id="${offerId}"]`).closest('tr').remove();
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    }
+        `);
+    });
+}
+$(document).ready(function () {
+    fetchData();
 });

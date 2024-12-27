@@ -1,106 +1,77 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const tableBody = document.querySelector('#example tbody');
-    const btnEn = document.querySelector('#btn-en');
-    const btnAr = document.querySelector('#btn-ar');
-    let selectedLanguage = 'ar';
-    let currentPage = 1;
-    const paginationControls = document.getElementById('paginationControls');
-    const token = localStorage.getItem('token');
-    btnEn.addEventListener('click', () => {
-        selectedLanguage = 'en';
-        fetchCategories(selectedLanguage);
-    });
+const token = localStorage.getItem('token');
+console.log("Token:", token); // Verify the token value
 
-    btnAr.addEventListener('click', () => {
-        selectedLanguage = 'ar';
-        fetchCategories(selectedLanguage);
-    });
+function fetchData() {
+  fetch(
+      "http://localhost:3500/api/v1/categories/getallcategories-admin", {
+        headers: {
+          "accept-language": "english",
+          token: `${token}`,
+        },
+      }
+    ).then((response) => {
+      if (response.status === 401) {
+          alert('Session expired. Please log in again.');
+          localStorage.removeItem('token'); 
+          window.location.href = './login.html'; 
+          return null;
+      }
+      return response.json(); 
+  })
+    .then((data) => {
+      populateTable(data.result);
+      console.log(data.result)
+      if ($.fn.DataTable.isDataTable("#example1")) {
+        $("#example1").DataTable().destroy();
+      }
+      $("#example1")
+        .DataTable({
+          responsive: true,
+          lengthChange: false,
+          autoWidth: false,
+          buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"],
+        })
+        .buttons()
+        .container()
+        .appendTo("#example1_wrapper .col-md-6:eq(0)");
+    })
+    .catch((error) => console.error("Error fetching data:", error));
+}
 
-    async function fetchCategories(language, page = 1) {
-        try {
-            const response = await fetch(`http://localhost:3500/api/v1/categories/getallcategories-admin?page=${page}`, {
-                headers: {
-                    'accept-language': language,
-                   'token': `${token}`
-                }
+$(document).on("click", ".btn-danger", function () {
+  const categoryId = $(this).data("category-id");
+  fetch(`http://localhost:3500/api/v1/categories/${categoryId}`, {
+      method: "DELETE",
+      headers: {
+        token: `${token}`
+      },
+    })
+    .then((response) => response.json())
+    .then(() => {
+      alert("category deleted successfully!");
+            const row = $(this).closest('tr');
+            row.fadeOut(100, function () {
+                row.remove(); // Remove the row after fade out
             });
+    })
+    .catch((error) => console.error("Error deleting category:", error));
+});
 
-            const data = await response.json();
+function populateTable(data) {
 
-            if (data.message === "success") {
-                populateTable(data.result, language);
-                setupPagination(data.totalPages, page);
-                populateTable(data.result);
-            } else {
-                console.error('Failed to fetch categories:', data.message);
-            }
-        } catch (error) {
-            console.error('Error fetching categories:', error);
-        }
-    }
-
-    function populateTable(categories) {
-        tableBody.innerHTML = '';
-        categories.forEach(category => {
-            const row = document.createElement('tr');
-
-            row.innerHTML = `
-                <td>${category.name}</td>
-                
-                     <td><a href="edit-category.html ?id=${category._id}"  class="btn btn-info"><i class="fa fa-edit"></i></a></td>
-                 <button type="button" class="btn btn-danger mt-3" data-category-id="${category._id}">Delete category</button>
-            `;
-
-            tableBody.appendChild(row);
-        });
-
-        tableBody.querySelectorAll('.btn-danger').forEach(button => {
-            button.addEventListener('click', async (event) => {
-                const categoryId = event.target.getAttribute('data-category-id');
-                if (confirm('Are you sure you want to delete this category?')) {
-                    await deleteCategory(categoryId);
-                }
-            });
-        });
-    }
-
-    async function deleteCategory(id) {
-        try {
-            const response = await fetch(`http://localhost:3500/api/v1/categories/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'token': `${token}`
-
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to delete category');
-            }
-
-            fetchCategories();
-        } catch (error) {
-            console.error('Error deleting category:', error);
-            alert('Failed to delete category. Please try again.');
-        }
-    }
-    function setupPagination(totalPages, currentPage) {
-        paginationControls.innerHTML = '';
-        for (let i = 1; i <= totalPages; i++) {
-            const button = document.createElement('button');
-            button.textContent = i;
-            button.classList.add('pagination-btn');
-            if (i === currentPage) {
-                button.classList.add('active');
-            }
-            button.addEventListener('click', () => {
-                fetchSubcategory(selectedLanguage, i);
-            });
-            paginationControls.appendChild(button);
-        }
-    }
-
-
-    fetchCategories(selectedLanguage,currentPage);
+  const tableBody = $("#example1 tbody");
+  tableBody.empty();
+  data.forEach((item) => {
+    tableBody.append(`
+        <tr>
+          <td>${item.arabicname}</td>
+          <td>${item.englishname}</td>
+          <td><a href="edit-category.html?id=${item._id}"  class="btn btn-info"><i class="fa fa-edit"></i></a></td>
+          <td><button type="button" class="btn btn-danger mt-3" data-category-id="${item._id}">Delete category</button></td>
+        </tr>
+      `);
+  });
+}
+$(document).ready(function () {
+  fetchData();
 });

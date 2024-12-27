@@ -8,9 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     'currency': "KWD"
                 }
             });
-
+            if (response.status === 401) {
+                alert('Session expired. Please log in again.');
+                localStorage.removeItem('token');
+                window.location.href = './login.html';
+            }
             const data = await response.json();
-
+          
             if (data.message === "success") {
                 return data;
             } else {

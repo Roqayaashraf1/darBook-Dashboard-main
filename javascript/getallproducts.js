@@ -1,118 +1,92 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const productTableBody = document.getElementById('productTableBody');
-    const paginationControls = document.getElementById('paginationControls');
-    const searchInput = document.getElementById('searchInput');
-    const token = localStorage.getItem('token');
-    let currentPage = 1; 
-    let currentSearchKeyword = ''; 
-
-    async function fetchProducts(page = 1, keyword = '') {
-        try {
-            const url = `http://localhost:3500/api/v1/products/getallproduts-admin?page=${page}&keyword=${encodeURIComponent(keyword)}`;
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'currency': 'KWD',
-                    'token':`${token}`
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+const token = localStorage.getItem('token');
+console.log("Token:", token);
+function fetchData() {
+    fetch('http://localhost:3500/api/v1/products/getallproduts-admin', {
+            headers: {
+                'Content-Type': 'application/json',
+                'currency': 'KWD',
+                'token':   `${token}`
             }
-
-            const data = await response.json();
+        })
+        .then((response) => {
+            if (response.status === 401) {
+                alert('Session expired. Please log in again.');
+                localStorage.removeItem('token'); 
+                window.location.href = './login.html'; 
+                return null;
+            }
+            return response.json(); 
+        })
+        .then((data) => {
             populateTable(data.result);
-            setupPagination(data.totalPages, page);
-        } catch (error) {
-            console.error('Error fetching products:', error);
-        }
-    }
+            console.log(data.result);
 
-    function populateTable(products) {
-        productTableBody.innerHTML = '';
-        products.forEach(product => {
-            const category = product.category;
-            const author = product.author;
-            const subcategory = product.Subcategory;
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${product.title}</td>
-                <td>${product.price}</td>
-                <td>${product.quantity}</td>
-                <td>${product.sold}</td>
-                <td>${product.description}</td>
-                <td>${product.papersnumber}</td>
-                <td>${subcategory ? (subcategory.englishname || subcategory.arabicname) : 'N/A'}</td>
-                <td>${category ? (category.englishname || category.arabicname) : 'N/A'}</td>
-                <td>${author ? author.name : 'N/A'}</td>
-                <td><a href="edit-product.html?id=${product._id}" class="btn btn-info"><i class="fa fa-edit"></i></a></td>
-                <td><button type="button" class="btn btn-danger mt-3" data-product-id="${product._id}">Delete product</button></td>
-            `;
-            productTableBody.appendChild(row);
-        });
-
-        productTableBody.querySelectorAll('.btn-danger').forEach(button => {
-            button.addEventListener('click', async (event) => {
-                const productId = event.target.getAttribute('data-product-id');
-                if (confirm('Are you sure you want to delete this product?')) {
-                    await deleteProduct(productId);
-                }
-            });
-        });
-    }
-    function setupPagination(totalPages, currentPage) {
-        paginationControls.innerHTML = '';
-        for (let i = 1; i <= totalPages; i++) {
-            const button = document.createElement('button');
-            button.textContent = i;
-            button.classList.add('pagination-btn');
-            if (i === currentPage) {
-                button.classList.add('active');
-            }
-            button.addEventListener('click', () => {
-                fetchProducts(i, currentSearchKeyword); 
-            });
-            paginationControls.appendChild(button);
-        }
-    }
-
-    async function deleteProduct(id) {
-        try {
-            const response = await fetch(`http://localhost:3500/api/v1/products/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'token': `${token}`,
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to delete product');
+            // Initialize DataTable only once
+            if ($.fn.DataTable.isDataTable("#example1")) {
+                $("#example1").DataTable().clear().destroy(); // Destroy existing instance first
             }
 
-            fetchProducts(currentPage, currentSearchKeyword);
-        } catch (error) {
-            console.error('Error deleting product:', error);
-            alert('Failed to delete product. Please try again.');
-        }
-    }
+            $("#example1")
+                .DataTable({
+                    responsive: true,
+                    lengthChange: false,
+                    autoWidth: false,
+                    buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                })
+                .buttons()
+                .container()
+                .appendTo("#example1_wrapper .col-md-6:eq(0)");
+        })
+        .catch((error) => console.error("Error fetching data:", error));
+}
 
-    
-    let debounceTimeout;
-    const debounceDelay = 500; 
+$(document).on("click", ".btn-danger", function () {
+    const productId = $(this).data("product-id");
+    console.log(productId);
+    fetch(`http://localhost:3500/api/v1/products/${productId}`, {
+            method: "DELETE",
+            headers: {
+                token: `${token}`
+            },
+        })
+        .then((response) => response.json())
+        .then(() => {
+            alert("Product deleted successfully!");
+            const row = $(this).closest('tr');
+            row.fadeOut(100, function() {
+                row.remove(); // Remove the row after fade out
+            });
+            // Refresh DataTable
+            $("#example1").DataTable().draw();
+        })
+        .catch((error) => console.error("Error deleting product:", error));
+});
 
-    searchInput.addEventListener('input', (e) => {
-        const keyword = e.target.value.trim();
-        currentSearchKeyword = keyword; 
-        clearTimeout(debounceTimeout);
-
-
-        debounceTimeout = setTimeout(() => {
-            fetchProducts(1, keyword); 
-        }, debounceDelay);
+function populateTable(data) {
+    const tableBody = $("#example1 tbody");
+    tableBody.empty();
+    data.forEach((item) => {
+        const categoryName = item.category ? item.category.englishname : "No Category";
+        const subcategoryName = item.Subcategory ? item.Subcategory.englishname : "No SubCategory";
+        const authorName = item.author ? item.author.name : "Unknown Author";
+        tableBody.append(`
+            <tr>
+                <td>${item.title}</td>
+                <td>${item.price}</td>
+                <td>${item.quantity}</td>
+                <td>${item.sold}</td>
+                <td>${item.description}</td>
+                <td>${item.papersnumber}</td>
+                <td>${categoryName}</td>
+                <td>${subcategoryName}</td>
+                <td>${authorName}</td>
+                <td><a href="edit-product.html?id=${item._id}" class="btn btn-info"><i class="fa fa-edit"></i></a></td>
+                <td><button type="button" class="btn btn-danger mt-3" data-product-id="${item._id}">Delete product</button></td>
+            </tr>
+       ` );
     });
+}
 
-    fetchProducts(); 
+$(document).ready(function () {
+    fetchData();
 });

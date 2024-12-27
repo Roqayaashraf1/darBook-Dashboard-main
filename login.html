@@ -46,28 +46,28 @@
                       
                         <div class="row">
                             <div class="col-md-12">
-                                <form action="#" class="form" method="post">
-
-                                    <div class="col-md-12">
-                                        <label for="email" class="text-dark">email</label>
-                                        <input type="text" class="form-control" name="email" id="email" placeholder="Enter Your email *" required>
+                              <form id="loginForm" class="form" method="post">
+                                <div class="col-md-12">
+                                    <label for="email" class="text-dark">Email</label>
+                                    <input type="text" class="form-control" name="email" id="email" placeholder="Enter Your Email *" required>
+                                </div>
+                            
+                                <div class="col-md-12 mt-3">
+                                    <label for="password" class="text-dark">Password</label>
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="Enter Your Password *" required>
+                                </div>
+                            
+                                <div class="row">
+                                    <div class="col-sm-4"></div>
+                                    <div class="col-sm-4">
+                                        <button class="btn btn-success mt-3 form-control" type="submit">Submit</button>
                                     </div>
-                
-                                    <div class="col-md-12 mt-3">
-                                        <label for="password" class="text-dark">password</label>
-                                        <input type="password" class="form-control" name="password" id="password" placeholder="Enter Your password *" required>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm-4"></div>
-                                        <div class="col-sm-4">
-                                            <button class="btn btn-success mt-3 form-control" type="submit">Submit</button>
-
-                                        </div>
-                                        <div class="col-sm-4"></div>  
-                                          
-                                    </div>
-                                </form>
+                                    <div class="col-sm-4"></div>
+                                </div>
+                                <!-- Feedback message container -->
+                                <div id="error-message" class="text-danger mt-3" style="display: none;"></div>
+                            </form>
+                            
                             </div>
                         </div>
                     </div>
@@ -135,33 +135,6 @@
 <script src="dist/js/demo.js"></script>
 
 <script src="dist/js/pages/dashboard.js"></script>
-<script>
-$(function () {
-  bsCustomFileInput.init();
-});
-</script>
-<script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    
-  });
-
-
-  $(function () {
-    $("#example2").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
-   
-  });
-
-
-  // Summernote
-  $('#summernote').summernote()
-</script>
 <script src="./javascript/login.js"></script>
 </body>
 </html>

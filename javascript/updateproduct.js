@@ -45,7 +45,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 categorySelect.appendChild(option);
             });
         }
-
         if (authorsRes.ok) {
             const authorsData = await authorsRes.json();
             const authorSelect = document.getElementById('author');
@@ -119,7 +118,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 },
                 body: formData
             });
-
+            if (updateRes.status === 401) {
+                alert('Session expired. Please log in again.');
+                localStorage.removeItem('token');
+                window.location.href = './login.html';
+            }
             if (updateRes.ok) {
                 const result = await updateRes.json();
                 console.log(result);

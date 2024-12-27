@@ -159,6 +159,19 @@
             </a>
          </li>
             <hr style="width: 80%; background-color: gray;">
+            <a href="add-contactus.html" class="nav-link ">
+              <i class="fa fa-plus nav-icon"></i>
+              <p>Add contactus</p>
+           </a>
+        </li>
+        <li class="nav-item">
+           <a href="contactus-history.html" class="nav-link">
+              <i class="fa fa-history nav-icon"></i>
+              <p>All contactus</p>
+           </a>
+        </li>
+       </li>
+            <hr style="width: 80%; background-color: gray;">
  
             <li class="nav-item">
                   <a href="orders-history.html" class="nav-link">
@@ -454,33 +467,7 @@
 <script src="dist/js/demo.js"></script>
 
 <script src="dist/js/pages/dashboard.js"></script>
-<script>
-$(function () {
-  bsCustomFileInput.init();
-});
-</script>
-<script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    
-  });
-
-
-  $(function () {
-    $("#example2").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example2_wrapper .col-md-6:eq(0)');
-   
-  });
-
-
-  // Summernote
-  $('#summernote').summernote()
-</script>
+<script src="./javascript/index.js"></script>
 <script src="./javascript/updateproduct.js"></script>
 <script src="./javascript/logout.js"></script>
 </body>
